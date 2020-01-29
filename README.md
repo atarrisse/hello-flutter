@@ -1,6 +1,7 @@
 # Hello Flutter
 
 Exercises from a "Flutter: Getting Started" class on Pluralsight.
+
 Using Simulator: iPhone 11 Pro Max with iOS 13.3
 
 ## Assets credits
