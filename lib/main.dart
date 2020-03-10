@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './http/theme/theme.dart';
-import './http/home.dart';
+import './chatbot/theme/theme.dart';
+import './chatbot/home.dart';
 
 void main() {
   runApp(new HelloFlutterApp());

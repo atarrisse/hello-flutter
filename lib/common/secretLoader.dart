@@ -10,13 +10,21 @@ class Secrets {
 
   String _filePath = 'assets/secrets.json';
   var secrets;
+  var loaded = false;
 
   Future<void> loadSecrets() async {
-    String result = await rootBundle.loadString(_filePath);
-    secrets = json.decode(result);
+    await rootBundle.loadString(_filePath).then((result) {
+      secrets = json.decode(result);
+      loaded = true;
+      print("🔑 secrets have been loaded");
+      return true;
+    });
   }
 
   getSecret(String platform, String key) {
+    if (!loaded) {
+      throw Exception('Did you remember to load the secrets?');
+    }
     return secrets[platform][key];
   }
 }

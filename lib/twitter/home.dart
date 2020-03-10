@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/http/model/tweet.dart';
-import 'package:hello_flutter/http/secretLoader.dart';
+import 'package:hello_flutter/twitter/model/tweet.dart';
+import 'package:hello_flutter/common/secretLoader.dart';
 import 'package:twitter_api/twitter_api.dart';
 
 Future fetchTweets(String handle) async {
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Hello"),
+          title: Text("Twitter"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Container(
