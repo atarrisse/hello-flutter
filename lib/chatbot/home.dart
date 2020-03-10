@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("click");
+          watson.sendMessage('Hello');
         },
         child: Icon(Icons.send),
       ),
