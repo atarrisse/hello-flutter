@@ -21,9 +21,9 @@ class Secrets {
     });
   }
 
-  getSecret(String platform, String key) {
+  getSecret(String platform, String key) async {
     if (!loaded) {
-      throw Exception('Did you remember to load the secrets?');
+      await loadSecrets();
     }
     return secrets[platform][key];
   }

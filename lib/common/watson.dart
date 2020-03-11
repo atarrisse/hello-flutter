@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:hello_flutter/chatbot/model/watsonResponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:hello_flutter/common/secretLoader.dart';
 
@@ -16,25 +17,26 @@ class Watson {
   String _auth;
   String _query;
   String _url;
+  DateTime _sessionTimestamp;
   String _sessionID;
+  final int sessionTimeoutMinutes = 5;
 
-  Future initWatson() async {
-    secrets.loadSecrets().then((res) {
-      String username = 'apikey';
-      String password = secrets.getSecret(platform, 'apiKey');
-      var params = {'version': secrets.getSecret(platform, 'version')};
-      _assistantId = secrets.getSecret(platform, 'assistantID');
-      _auth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      _query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
-      _url = secrets.getSecret(platform, 'url');
-
-      _createWatsonSession().then((session) {
-        _sessionID = session;
-      });
-    });
+  void _setWatsonAuth() async {
+    String _username = 'apikey';
+    String password = await secrets.getSecret(platform, 'apiKey');
+    _auth = 'Basic ' + base64Encode(utf8.encode('$_username:$password'));
   }
 
-  Future<String> _createWatsonSession() async {
+  void initWatson() async {
+    _setWatsonAuth();
+    var params = {'version': await secrets.getSecret(platform, 'version')};
+    _assistantId = await secrets.getSecret(platform, 'assistantID');
+    _query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
+    _url = await secrets.getSecret(platform, 'url');
+    _createWatsonSession();
+  }
+
+  Future<void> _createWatsonSession() async {
     var res = await http.post(
         '$_url/v2/assistants/$_assistantId/sessions?$_query',
         headers: {'Authorization': _auth});
@@ -42,23 +44,44 @@ class Watson {
     if (res.statusCode < 200 || res.statusCode > 299)
       throw Exception('http.post error: statusCode= ${res.statusCode}');
     if (res.statusCode == 201) print("✅ session created");
-    return json.decode(res.body)['session_id'];
+    _sessionTimestamp = DateTime.now();
+    _sessionID = json.decode(res.body)['session_id'];
+  }
+
+  Future<void> _checkIfSessionHasTimedout() async {
+    var current = DateTime.now();
+    var timeDifference = current.difference(_sessionTimestamp).inMinutes;
+
+    if (timeDifference >= sessionTimeoutMinutes) {
+      print("The time difference is $timeDifference minutes");
+      print("Let's restart the session!");
+      deleteWatsonSession();
+      await _createWatsonSession();
+    }
   }
 
   Future sendMessage(String input) async {
+    await _checkIfSessionHasTimedout();
+
     var data = '{"input": {"text": "$input"}}';
     var res = await http.post(
         '$_url/v2/assistants/$_assistantId/sessions/$_sessionID/message?$_query',
         headers: {'Content-Type': 'application/json', 'Authorization': _auth},
         body: data);
 
+    if (res.statusCode == 400) {
+      print("Oops, seems session has expired. Let's rety!");
+    }
+
     if (res.statusCode != 200)
       throw Exception('http.post error: statusCode= ${res.statusCode}');
 
     print(res.body);
+    var response = WatsonResponse.fromJson(json.decode(res.body)["output"]);
+    return response.getText();
   }
 
-  Future deleteWatsonSession() async {
+  void deleteWatsonSession() async {
     var res = await http.delete(
         '$_url/v2/assistants/$_assistantId/sessions?$_query',
         headers: {'Authorization': _auth});

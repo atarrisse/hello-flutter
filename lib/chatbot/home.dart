@@ -7,10 +7,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final myController = TextEditingController();
+  final msgController = TextEditingController();
 
   Watson watson = Watson();
   String _text;
+  bool _isLoading = false;
+
+  _sendMessage() async {
+    setState(() {
+      _isLoading = true;
+    });
+    print("sending: ${msgController.text}");
+    dynamic watsonResponse = await watson.sendMessage(msgController.text);
+    setState(() {
+      _isLoading = false;
+      _text = watsonResponse;
+    });
+
+    // watsonAssistantContext = watsonAssistantResponse.context;
+    msgController.clear();
+  }
 
   @override
   void initState() {
@@ -33,44 +49,35 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextField(
-                controller: myController,
-                decoration: InputDecoration(
-                  hintText: 'Your Input to the chatbot',
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                _text != null ? '$_text' : 'Watson Response Here',
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
+              TextField(controller: msgController),
+              Container(
+                child: _isLoading
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: 20,
+                            width: 20,
+                            margin: EdgeInsets.all(5),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              valueColor: AlwaysStoppedAnimation(
+                                Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        _text != null ? '$_text' : 'Watson Response Here',
+                      ),
+              )
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          watson.sendMessage('Hello');
-        },
+        onPressed: _sendMessage,
         child: Icon(Icons.send),
       ),
     );
@@ -79,7 +86,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     watson.deleteWatsonSession();
-    myController.dispose();
+    msgController.dispose();
     super.dispose();
   }
 }
