@@ -6,18 +6,19 @@ class CustomTheme {
     const blueLight = Color.fromRGBO(129, 204, 204, 1.0);
     const greyDark = Color.fromRGBO(102, 102, 102, 1.0);
     const grey = Color.fromRGBO(230, 230, 230, 1.0);
+    const white = Color.fromRGBO(255, 255, 255, 1.0);
 
     final ThemeData base = ThemeData();
     return base.copyWith(
+      backgroundColor: grey,
       accentColor: blueDark,
       buttonColor: Color(0XFFF8D320),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: blueLight)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+        enabledBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: blueLight)),
         hintStyle: TextStyle(color: greyDark),
-        labelStyle: TextStyle(color: greyDark),
         focusColor: greyDark,
       ),
       primaryColor: blueLight,

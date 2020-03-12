@@ -13,7 +13,14 @@ class WatsonResponse {
     );
   }
 
-  getText() {
+  @override
+  String toString() {
     return response[0]['text'];
+  }
+
+  @override
+  void noSuchMethod(Invocation invocation) {
+    print('You tried to use a non-existent member: ' +
+        '${invocation.memberName}');
   }
 }

@@ -60,7 +60,7 @@ class Watson {
     }
   }
 
-  Future sendMessage(String input) async {
+  Future<WatsonResponse> sendMessage(String input) async {
     await _checkIfSessionHasTimedout();
 
     var data = '{"input": {"text": "$input"}}';
@@ -77,8 +77,8 @@ class Watson {
       throw Exception('http.post error: statusCode= ${res.statusCode}');
 
     print(res.body);
-    var response = WatsonResponse.fromJson(json.decode(res.body)["output"]);
-    return response.getText();
+    // var response = WatsonResponse.fromJson(json.decode(res.body)["output"]);
+    return WatsonResponse.fromJson(json.decode(res.body)["output"]);
   }
 
   void deleteWatsonSession() async {
