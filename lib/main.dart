@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import './chatbot/theme/theme.dart';
+import './chatbot/chat.dart';
 import './chatbot/home.dart';
 
 void main() {
-  runApp(new HelloFlutterApp());
+  runApp(MaterialApp(initialRoute: '/', routes: {
+    '/': (context) => Home(),
+    '/chat': (context) => Chat(),
+  }));
 }
 
 class HelloFlutterApp extends StatelessWidget {
