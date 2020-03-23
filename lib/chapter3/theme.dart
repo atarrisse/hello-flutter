@@ -12,10 +12,9 @@ class CustomTheme {
       accentColor: blueDark,
       buttonColor: Color(0XFFF8D320),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: blueLight)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        enabledBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: blueLight)),
         hintStyle: TextStyle(color: greyDark),
         labelStyle: TextStyle(color: greyDark),
         focusColor: greyDark,
