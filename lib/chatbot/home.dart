@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hello_flutter/chatbot/components/character/character.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key key}) : super(key: key);
+  // const Home({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +13,6 @@ class Home extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: SafeArea(
-            child: Center(
-                child: RaisedButton(
-          onPressed: () {
-            print("hi");
-            Navigator.pushNamed(context, '/chat');
-          },
-          child: Text("Chatbot"),
-        ))));
+            child: Container(padding: EdgeInsets.all(20), child: Character())));
   }
 }
