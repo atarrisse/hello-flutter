@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:hello_flutter/chatbot/model/watsonResponse.dart';
-import 'package:hello_flutter/common/secretLoader.dart';
+import 'package:hello_flutter/model/watsonResponse.dart';
+import 'package:hello_flutter/model/secretLoader.dart';
 
 class Watson {
   /// define singleton

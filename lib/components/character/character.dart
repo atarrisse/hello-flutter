@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/chatbot/components/character/eyePainter.dart';
-import 'package:hello_flutter/chatbot/components/character/mouthPainter.dart';
+import 'package:hello_flutter/components/character/eyePainter.dart';
+import 'package:hello_flutter/components/character/mouthPainter.dart';
 
 enum CharacterMood {
   astonished,

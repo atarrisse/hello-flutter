@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/chatbot/model/sender.dart';
+import 'package:hello_flutter/model/sender.dart';
 
 class Balloon extends StatelessWidget {
   Balloon({@required this.sender, @required this.text});

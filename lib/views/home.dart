@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/chatbot/components/character/character.dart';
+import 'package:hello_flutter/components/character/character.dart';
 
 class Home extends StatelessWidget {
   @override

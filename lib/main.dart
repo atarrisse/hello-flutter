@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './chatbot/theme/theme.dart';
-import './chatbot/chat.dart';
-import './chatbot/home.dart';
+import './theme/theme.dart';
+import './views/chat.dart';
+import './views/home.dart';
 
 void main() {
   runApp(MaterialApp(initialRoute: '/', routes: {

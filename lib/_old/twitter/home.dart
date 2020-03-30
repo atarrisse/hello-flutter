@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/twitter/model/tweet.dart';
-import 'package:hello_flutter/common/secretLoader.dart';
+import 'package:hello_flutter/_old/twitter/model/tweet.dart';
+import 'package:hello_flutter/model/secretLoader.dart';
 import 'package:twitter_api/twitter_api.dart';
 
 Future fetchTweets(String handle) async {

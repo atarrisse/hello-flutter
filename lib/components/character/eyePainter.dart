@@ -17,9 +17,7 @@ class EyePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
   }
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    var leftEye = Offset(0.0, 0.0) & Size(this.height, this.height);
+  _getMoodedEye(Rect eye, Canvas canvas) {
     switch (this.mood) {
       case EyeMood.closed:
         {
@@ -31,25 +29,33 @@ class EyePainter extends CustomPainter {
         {
           canvas.drawLine(Offset(0.0, this.height / 2),
               Offset(this.height, this.height / 2), _paint);
-          canvas.drawArc(leftEye, 0, 2 * pi, false, _paint);
+          canvas.drawArc(eye, 0, 2 * pi, false, _paint);
         }
         break;
       case EyeMood.smile:
         {
-          canvas.drawArc(leftEye, 0, -pi, false, _paint);
+          canvas.drawArc(eye, 0, -pi, false, _paint);
+        }
+        break;
+      case EyeMood.open:
+        {
+          canvas.drawArc(eye, 0, 2 * pi, false, _paint);
         }
         break;
       default:
-        {
-          canvas.drawArc(leftEye, 0, 2 * pi, false, _paint);
-        }
+        throw ("Eye need some mood");
         break;
     }
   }
 
   @override
+  void paint(Canvas canvas, Size size) {
+    Rect eye = Offset(0.0, 0.0) & Size(this.height, this.height);
+    this._getMoodedEye(eye, canvas);
+  }
+
+  @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
     return false;
   }
 }

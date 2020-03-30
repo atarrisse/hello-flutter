@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/chatbot/components/balloon.dart';
-import 'package:hello_flutter/chatbot/model/message.dart';
-import 'package:hello_flutter/chatbot/model/sender.dart';
-import 'package:hello_flutter/chatbot/model/watsonResponse.dart';
-import 'package:hello_flutter/common/watson.dart';
+import 'package:hello_flutter/components/balloon.dart';
+import 'package:hello_flutter/model/message.dart';
+import 'package:hello_flutter/model/sender.dart';
+import 'package:hello_flutter/model/watsonResponse.dart';
+import 'package:hello_flutter/model/watson.dart';
 
 class Chat extends StatefulWidget {
   @override
